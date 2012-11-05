@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KuaiPanApiVersion</key>
+	<string>1.0</string>
+	<key>KuaiPanAuthorizeURLString</key>
+	<string>https://www.kuaipan.cn/api.php?ac=open&amp;op=authorise&amp;oauth_token=%@</string>
+	<key>KuaiPanFileServerBaseURLString</key>
+	<string>http://api-content.dfs.kuaipan.cn/</string>
+	<key>KuaiPanBaseURLString</key>
+	<string>https://openapi.kuaipan.cn/</string>
+	<key>KuaiPanRequestTokenURLAdd</key>
+	<string>open/requestToken</string>
+	<key>KuaiPanAccessTokenURLAdd</key>
+	<string>open/accessToken</string>
+	<key>KuaiPanUserInfoURLAdd</key>
+	<string>1/account_info</string>
+	<key>KuaiPanMetadataURLAdd</key>
+	<string>1/metadata</string>
+	<key>KuaiPanCreateFolderURLAdd</key>
+	<string>1/fileops/create_folder</string>
+	<key>KuaiPanShareLinkURLAdd</key>
+	<string>1/shares</string>
+	<key>KuaiPanFileHistoryURLAdd</key>
+	<string>1/history</string>
+	<key>KuaiPanFileDeleteURLAdd</key>
+	<string>1/fileops/delete</string>
+	<key>KuaiPanUploadLocateURLAdd</key>
+	<string>1/fileops/upload_locate</string>
+	<key>KuaiPanUploadFileURLAdd</key>
+	<string>1/fileops/upload_file</string>
+	<key>KuaiPanDownloadFileURLAdd</key>
+	<string>1/fileops/download_file</string>
+	<key>BaiduAuthorizeURLString</key>
+	<string>https://openapi.baidu.com/oauth/2.0/authorize</string>
+	<key>BaiduAccessTokenURLString</key>
+	<string>https://openapi.baidu.com/oauth/2.0/token</string>
+	<key>BaiduBaseURLString</key>
+	<string>https://pcs.baidu.com/rest</string>
+	<key>BaiduQuotaURLAdd</key>
+	<string>2.0/pcs/quota</string>
+	<key>BaiduFileURLAdd</key>
+	<string>2.0/pcs/file</string>
+</dict>
+</plist>
