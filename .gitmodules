@@ -1,0 +1,6 @@
+[submodule "YunSDK/Vendor/AFNetworking"]
+	path = YunSDK/Vendor/AFNetworking
+	url = git://github.com/AFNetworking/AFNetworking.git
+[submodule "YunSDK/Vendor/SBJson"]
+	path = YunSDK/Vendor/SBJson
+	url = git://github.com/stig/json-framework.git
