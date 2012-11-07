@@ -6,6 +6,7 @@
 API详情请参照:
 
 快盘:http://www.kuaipan.cn/developers/document.htm
+
 百度云:http://developer.baidu.com/wiki/index.php?title=Docs/PCS/File_API
 
 做了什么&没做什么
@@ -30,7 +31,7 @@ API详情请参照:
   - 文档转换
   
 百度云:
-DONE:
+- DONE:
   - OAuth认证
   - 查看网盘容量
   - 创建文件夹
