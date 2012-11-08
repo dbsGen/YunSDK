@@ -96,7 +96,7 @@
  *  "request_id":4043312634
  *  }
  */
-- (void)client:(MTBaiduClient *)client
+- (void)client:(id)client
   getDiskQuota:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
@@ -112,7 +112,7 @@
  *  "request_id":4043312669
  *  }
  */
-- (void)client:(MTBaiduClient *)client
+- (void)client:(id)client
     uploadFile:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
@@ -126,7 +126,7 @@
  *  "request_id":4043312656
  *  }
  */
-- (void)client:(MTBaiduClient *)client
+- (void)client:(id)client
   createFolder:(NSDictionary *)dictionary
      withError:(NSError *)error;
 /**
@@ -135,13 +135,13 @@
  *  "request_id":4043312866
  *  }
  */
-- (void)client:(MTBaiduClient *)client
+- (void)client:(id)client
     deleteFile:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 
 //下载文件
-- (void)client:(MTBaiduClient *)client
+- (void)client:(id)client
   downloadFile:(NSData *)file
      withError:(NSError *)error;
 

@@ -85,7 +85,8 @@ NSString *encodeBase64WithData(NSData *objData) {
                       secret:(NSString *)secret
 {
     NSString *urlHeader = [NSMutableString stringWithFormat:@"%@&%@&",
-                           method, [self encodeWithUTF8:urlString]];
+                           method, [self encodeWithUTF8:
+                                    [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
     NSMutableString *paramsString = [NSMutableString string];
     NSArray *allKey = [[params allKeys] sortedArrayUsingSelector:@selector(compare:)];
@@ -98,7 +99,6 @@ NSString *encodeBase64WithData(NSData *objData) {
          [self encodeWithUTF8:[params objectForKey:key]]];
     }
     
-    NSLog(@"%@", [urlHeader stringByAppendingString:[self encodeWithUTF8:paramsString]]);
     return [self encodeWithHMAC_SHA1:
             [urlHeader stringByAppendingString:[self encodeWithUTF8:paramsString]]
                               secret:secret];

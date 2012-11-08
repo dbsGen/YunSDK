@@ -143,22 +143,22 @@
 
 @optional
 //获得用户信息
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
 getAccountInfo:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 //获得文件信息
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
    getMetadata:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 //创建文件夹
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
   createFolder:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 //分享连接
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
   getShareLink:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
@@ -169,17 +169,17 @@ getAccountInfo:(NSDictionary *)dictionary
 
 
 //删除文件
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
     deleteFile:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 //上传文件
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
     uploadFile:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 //下载文件
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
   downloadFile:(NSData *)file
      withError:(NSError *)error;
 
