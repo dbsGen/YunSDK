@@ -163,7 +163,7 @@ getAccountInfo:(NSDictionary *)dictionary
      withError:(NSError *)error;
 
 //获得文件历史
-- (void)client:(MTKuaiPanClient *)client
+- (void)client:(id)client
    fileHistory:(NSDictionary *)dictionary
      withError:(NSError *)error;
 

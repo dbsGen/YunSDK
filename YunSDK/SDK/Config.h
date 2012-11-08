@@ -8,6 +8,14 @@
 
 #import "MTConfig.h"
 
+#pragma mark - logger
+
+//这里可以替换成自己的logger
+
+#define Log_error(...)      NSLog(@"Error : %@ in %s %d", [NSString stringWithFormat:__VA_ARGS__], __FILE__, __LINE__)
+#define Log_warning(...)    NSLog(@"Warning : %@ int %s %d", [NSString stringWithFormat:__VA_ARGS__], __FILE__, __LINE__)
+#define Log_info(...)       //NSLog(@"Info : %@ int %s %d", [NSString stringWithFormat:__VA_ARGS__], __FILE__, __LINE__)
+
 #pragma mark - define
 
 #define kKuaiPanApiVersion  [[MTConfig defaultConfig] objectForKey:@"KuaiPanApiVersion"]

@@ -118,7 +118,6 @@
         }else {
             client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
         }
-        NSLog(@"%@", string);
         
         return [client multipartFormRequestWithMethod:method
                                                  path:[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
@@ -240,6 +239,10 @@
 
 - (void)createFolderWithPath:(NSString *)path
 {
+    if (!path) {
+        path = @"/";
+        Log_warning(@"Path为空，被替换成'/'");
+    }
     NSDictionary *params = @{@"root" : self.root, @"path" : path};
     NSMutableURLRequest *request = [self requestWithMethod:@"GET"
                                                    urlPath:kKuaiPanCreateFolderURLAdd
@@ -266,6 +269,10 @@
 
 - (void)getShareAddress:(NSString *)path name:(NSString *)name accessToken:(NSString *)accessToken
 {
+    if (!path) {
+        path = @"/";
+        Log_warning(@"Path为空，被替换成'/'");
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (name) {
         [params setObject:name
@@ -302,6 +309,10 @@
 
 - (void)fileHistory:(NSString *)path
 {
+    if (!path) {
+        path = @"/";
+        Log_warning(@"Path为空，被替换成'/'");
+    }
     NSMutableURLRequest *request = [self requestWithMethod:@"GET"
                                                    urlPath:[kKuaiPanFileHistoryURLAdd stringByAppendingFormat:
                                                             @"/%@%@", self.root, path]
@@ -328,11 +339,24 @@
 
 - (void)deleteFile:(NSString *)path toRecycle:(NSString *)toRecycle
 {
-    NSDictionary *params = @{
-    @"root"         : self.root,
-    @"path"         : path,
-    @"to_recycle"   : toRecycle
-    };
+    if (!path) {
+        path = @"/";
+        Log_warning(@"Path为空，被替换成'/'");
+    }
+    NSDictionary *params = nil;
+    if (toRecycle) {
+        params = @{
+        @"root"         : self.root,
+        @"path"         : path,
+        @"to_recycle"   : toRecycle
+        };
+    }else {
+        Log_info(@"to_recycle参数为空");
+        params = @{
+        @"root"         : self.root,
+        @"path"         : path
+        };
+    }
     
     NSMutableURLRequest *request = [self requestWithMethod:@"GET"
                                                    urlPath:kKuaiPanFileDeleteURLAdd
@@ -359,6 +383,11 @@
 
 - (void)uploadFile:(NSString *)path file:(NSData *)file overWritr:(BOOL)overWrite sourceIp:(NSString *)sourceIp
 {
+    Log_info(@"开始上传文件,文件长度%d", file.length);
+    if (!path) {
+        path = @"/";
+        Log_warning(@"Path为空，被替换成'/'");
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (sourceIp) {
         [params setObject:sourceIp forKey:@"source_ip"];
@@ -378,9 +407,8 @@
          
          if ([stat isEqualToString:@"OK"]) {
              NSString *url = [result objectForKey:@"url"];
-             NSLog(@"%@", url);
-             NSDictionary *params =
-             @{
+             Log_info(@"获得上传服务器url : %@", url);
+             NSDictionary *params = @{
              @"overwrite"    : overWrite ? @"true" : @"false",
              @"root"         : self.root,
              @"path"         : path
@@ -393,12 +421,14 @@
              
              AFHTTPRequestOperation *opretion = [[AFHTTPRequestOperation alloc] initWithRequest:request];
              [opretion setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 Log_info(@"文件上传成功!");
                  if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
                      [this.delegate client:self
                                 uploadFile:[responseObject JSONValue]
                                  withError:nil];
                  }
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 Log_error(@"上传失败，网络错误。");
                  if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
                      [this.delegate client:self
                                 uploadFile:nil
@@ -407,6 +437,7 @@
              }];
              [this.queue addOperation:opretion];
          }else {
+             Log_error(@"上传失败，服务器不允许上传。");
              if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
                  [this.delegate client:self
                             uploadFile:nil
@@ -417,6 +448,7 @@
          }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         Log_error(@"上传失败，获取上传服务器失败。");
          if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
              [this.delegate client:self
                         uploadFile:nil
@@ -428,6 +460,10 @@
 
 - (void)downloadFile:(NSString *)path rev:(NSString *)rev
 {
+    if (!path) {
+        path = @"/";
+        Log_warning(@"Path为空，被替换成'/'");
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    self.root, @"root", path, @"path", nil];
     if (rev) {
@@ -463,6 +499,10 @@
 
 - (NSMutableDictionary *)oauthParams
 {
+    if (![_oauthInfo objectForKey:kOAuthToken] || !_consumerKey) {
+        Log_error(@"客服端未登录或consumer key未设置。");
+        return nil;
+    }
     return [@{
             @"oauth_nonce"              : [MTTools UUID],
             @"oauth_timestamp"          : [NSString stringWithFormat:@"%d", (int)[[NSDate date] timeIntervalSince1970]],
@@ -485,6 +525,7 @@
 - (AFHTTPClient *)httpClient
 {
     if (!_httpClient) {
+        Log_info(@"初始化HTTPClient,基础网络地址是:%@", kKuaiPanBaseURLString);
         _httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:kKuaiPanBaseURLString]];
     }
     return _httpClient;
