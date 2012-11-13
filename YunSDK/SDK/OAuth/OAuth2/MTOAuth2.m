@@ -119,7 +119,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Request access token faild : %@", error);
         if ([this.delegate respondsToSelector:@selector(oauth:faildWithError:)]) {
-            [this.delegate oauth:self faildWithError:error];
+            [this.delegate oauth:this faildWithError:error];
         }
     }];
     [self.queue addOperation:operation];
