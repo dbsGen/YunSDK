@@ -263,12 +263,12 @@
 - (void)downloadFile:(NSString *)path
 {
     NSDictionary *params = @{
-    @"method"       : @"delete",
+    @"method"       : @"download",
     @"access_token" : [self accessToken],
     @"path"         : path
     };
     
-    NSMutableURLRequest *request = [self requestWithMethod:@"POST"
+    NSMutableURLRequest *request = [self requestWithMethod:@"GET"
                                                    urlPath:kBaiduFileURLAdd
                                                  urlParams:params
                                                 formParams:nil];
