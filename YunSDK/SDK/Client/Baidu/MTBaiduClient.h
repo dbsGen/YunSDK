@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MTOAuth.h"
+#import "MTClientDefine.h"
 
 @protocol MTBaiduClientDelegate;
 
@@ -47,11 +48,13 @@
                                    baseUrl:(NSString *)baseUrl;
 
 #pragma mark - APIs
+
 /**
  *  获得网盘用量
  *  2.0/pcs/quota
  */
 - (void)checkDiskQuota;
+- (void)checkDiskQuotaWithBlock:(MTClientDictionaryBlock)block;
 
 /**
  *  上传文件
@@ -61,25 +64,33 @@
  */
 - (void)uploadFile:(NSString *)path
               file:(NSData *)file;
+- (void)uploadFile:(NSString *)path
+              file:(NSData *)file
+             block:(MTClientDictionaryBlock)block;
 
 /**
  *  2.0/pcs/file
  *  @param path 同上
  */
 - (void)createFolderWithPath:(NSString *)path;
+- (void)createFolderWithPath:(NSString *)path
+                       block:(MTClientDictionaryBlock)block;
 
 /**
  *  2.0/pcs/file    method:delete
  *  @param  path 同上
  */
-
 - (void)deleteFile:(NSString *)path;
+- (void)deleteFile:(NSString *)path
+             block:(MTClientDictionaryBlock)block;
 
 /**
  *  2.0/pcs/file
  *  @param  path 同上
  */
 - (void)downloadFile:(NSString *)path;
+- (void)downloadFile:(NSString *)path
+               block:(MTClientDictionaryBlock)block;
 
 @end
 

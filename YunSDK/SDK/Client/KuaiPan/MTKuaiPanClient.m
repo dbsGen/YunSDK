@@ -156,6 +156,11 @@
 
 - (void)checkAccountInfo
 {
+    [self checkAccountInfoWithBlock:nil];
+}
+
+- (void)checkAccountInfoWithBlock:(MTClientDictionaryBlock)block
+{
     NSMutableURLRequest *request = [self requestWithMethod:@"GET"
                                                    urlPath:kKuaiPanUserInfoURLAdd
                                                  urlParams:nil
@@ -170,12 +175,14 @@
                    getAccountInfo:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:getAccountInfo:withError:)]) {
             [this.delegate client:this
                    getAccountInfo:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
@@ -187,6 +194,25 @@
                 pageSize:(NSNumber *)pageSize
                filterExt:(NSString *)filter
                   sortBy:(NSString *)sortBy
+{
+    [self metadataWithPath:path
+                      list:isList
+                 fileLimit:fileLimit
+                      page:page
+                  pageSize:pageSize
+                 filterExt:filter
+                    sortBy:sortBy
+                     block:nil];
+}
+
+- (void)metadataWithPath:(NSString *)path
+                    list:(NSNumber *)isList
+               fileLimit:(NSNumber *)fileLimit
+                    page:(NSNumber *)page
+                pageSize:(NSNumber *)pageSize
+               filterExt:(NSString *)filter
+                  sortBy:(NSString *)sortBy
+                   block:(MTClientDictionaryBlock)block
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (isList) {
@@ -227,17 +253,25 @@
                       getMetadata:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:getMetadata:withError:)]) {
             [this.delegate client:this
                       getMetadata:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)createFolderWithPath:(NSString *)path
+{
+    [self createFolderWithPath:path
+                         block:nil];
+}
+
+- (void)createFolderWithPath:(NSString *)path block:(MTClientDictionaryBlock)block
 {
     if (!path) {
         path = @"/";
@@ -257,17 +291,27 @@
                      createFolder:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:createFolder:withError:)]) {
             [this.delegate client:this
                      createFolder:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)getShareAddress:(NSString *)path name:(NSString *)name accessToken:(NSString *)accessToken
+{
+    [self getShareAddress:path
+                     name:name
+              accessToken:accessToken
+                    block:nil];
+}
+
+- (void)getShareAddress:(NSString *)path name:(NSString *)name accessToken:(NSString *)accessToken block:(MTClientDictionaryBlock)block
 {
     if (!path) {
         path = @"/";
@@ -297,17 +341,26 @@
                      getShareLink:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:getShareLink:withError:)]) {
             [this.delegate client:this
                      getShareLink:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)fileHistory:(NSString *)path
+{
+    [self fileHistory:path
+                block:nil];
+}
+
+- (void)fileHistory:(NSString *)path
+              block:(MTClientDictionaryBlock)block
 {
     if (!path) {
         path = @"/";
@@ -327,17 +380,26 @@
                       fileHistory:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:fileHistory:withError:)]) {
             [this.delegate client:this
                       fileHistory:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)deleteFile:(NSString *)path toRecycle:(NSString *)toRecycle
+{
+    [self deleteFile:path
+           toRecycle:toRecycle
+               block:nil];
+}
+
+- (void)deleteFile:(NSString *)path toRecycle:(NSString *)toRecycle block:(MTClientDictionaryBlock)block
 {
     if (!path) {
         path = @"/";
@@ -371,17 +433,28 @@
                        deleteFile:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:deleteFile:withError:)]) {
             [this.delegate client:this
                        deleteFile:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)uploadFile:(NSString *)path file:(NSData *)file overWritr:(BOOL)overWrite sourceIp:(NSString *)sourceIp
+{
+    [self uploadFile:path
+                file:file
+           overWritr:overWrite
+            sourceIp:sourceIp
+               block:nil];
+}
+
+- (void)uploadFile:(NSString *)path file:(NSData *)file overWritr:(BOOL)overWrite sourceIp:(NSString *)sourceIp block:(MTClientDictionaryBlock)block
 {
     Log_info(@"开始上传文件,文件长度%d", file.length);
     if (!path) {
@@ -423,42 +496,55 @@
              [opretion setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                  Log_info(@"文件上传成功!");
                  if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
-                     [this.delegate client:self
+                     [this.delegate client:this
                                 uploadFile:[responseObject JSONValue]
                                  withError:nil];
                  }
+                 if (block) block(this, [responseObject JSONValue], nil);
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                  Log_error(@"上传失败，网络错误。");
                  if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
-                     [this.delegate client:self
+                     [this.delegate client:this
                                 uploadFile:nil
                                  withError:error];
                  }
+                 if (block) block(this, nil, error);
              }];
              [this.queue addOperation:opretion];
          }else {
              Log_error(@"上传失败，服务器不允许上传。");
              if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
-                 [this.delegate client:self
+                 [this.delegate client:this
                             uploadFile:nil
                              withError:[NSError errorWithDomain:@"Disable"
                                                            code:405
                                                        userInfo:nil]];
              }
+             if (block) block(this, nil, [NSError errorWithDomain:@"Disable"
+                                                             code:405
+                                                         userInfo:nil]);
          }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          Log_error(@"上传失败，获取上传服务器失败。");
          if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
-             [this.delegate client:self
+             [this.delegate client:this
                         uploadFile:nil
                          withError:error];
          }
+         if (block) block(this, nil, error);
      }];
     [self.queue addOperation:opretion];
 }
 
 - (void)downloadFile:(NSString *)path rev:(NSString *)rev
+{
+    [self downloadFile:path
+                   rev:rev
+                 block:nil];
+}
+
+- (void)downloadFile:(NSString *)path rev:(NSString *)rev block:(MTClientDictionaryBlock)block
 {
     if (!path) {
         path = @"/";
@@ -481,16 +567,18 @@
     __unsafe_unretained MTKuaiPanClient *this = self;
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([this.delegate respondsToSelector:@selector(client:downloadFile:withError:)]) {
-            [this.delegate client:self
+            [this.delegate client:this
                      downloadFile:responseObject
                         withError:nil];
         }
+        if (block) block(this, responseObject, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:downloadFile:withError:)]) {
-            [this.delegate client:self
+            [this.delegate client:this
                      downloadFile:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }

@@ -121,6 +121,7 @@
 		5FF5D5D8164399CD00ABCFF8 /* KPAuthorizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPAuthorizeViewController.m; sourceTree = "<group>"; };
 		5FF5D5D9164399CD00ABCFF8 /* KPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPViewController.h; sourceTree = "<group>"; };
 		5FF5D5DA164399CD00ABCFF8 /* KPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPViewController.m; sourceTree = "<group>"; };
+		5FFE3E7416A143EE009C692B /* MTClientDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTClientDefine.h; sourceTree = "<group>"; };
 		5FFF47A21640F4030008BCFE /* YunSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YunSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FFF47A61640F4030008BCFE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5FFF47A81640F4030008BCFE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -411,6 +412,7 @@
 			children = (
 				FE28A6F116460B9F006ACB17 /* Baidu */,
 				FE28A6F416460B9F006ACB17 /* KuaiPan */,
+				5FFE3E7416A143EE009C692B /* MTClientDefine.h */,
 			);
 			path = Client;
 			sourceTree = "<group>";

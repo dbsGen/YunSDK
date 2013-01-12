@@ -141,6 +141,11 @@
 
 - (void)checkDiskQuota
 {
+    [self checkDiskQuotaWithBlock:nil];
+}
+
+- (void)checkDiskQuotaWithBlock:(MTClientDictionaryBlock)block
+{
     NSDictionary *params = @{
     @"access_token" : [self accessToken],
     @"method"       : @"info"
@@ -158,19 +163,29 @@
                      getDiskQuota:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"%@", error);
+        Log_error(@"Faild to check disk quota %@", error);
         if ([this.delegate respondsToSelector:@selector(client:getDiskQuota:withError:)]) {
             [this.delegate client:this
                      getDiskQuota:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
+- (void)uploadFile:(NSString *)path file:(NSData *)file
+{
+    [self uploadFile:path
+                file:file
+               block:nil];
+}
+
 - (void)uploadFile:(NSString *)path
               file:(NSData *)file
+             block:(MTClientDictionaryBlock)block
 {
     NSDictionary *params =@{
     @"method"       : @"upload",
@@ -190,17 +205,26 @@
                        uploadFile:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:uploadFile:withError:)]) {
             [this.delegate client:this
                        uploadFile:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)createFolderWithPath:(NSString *)path
+{
+    [self createFolderWithPath:path
+                         block:nil];
+}
+
+- (void)createFolderWithPath:(NSString *)path
+                       block:(MTClientDictionaryBlock)block
 {
     NSDictionary *params = @{
     @"method"       : @"mkdir",
@@ -220,17 +244,26 @@
                      createFolder:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:createFolder:withError:)]) {
             [this.delegate client:this
                      createFolder:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)deleteFile:(NSString *)path
+{
+    [self deleteFile:path
+               block:nil];
+}
+
+- (void)deleteFile:(NSString *)path
+             block:(MTClientDictionaryBlock)block
 {
     NSDictionary *params = @{
     @"method"       : @"delete",
@@ -250,17 +283,26 @@
                        deleteFile:[responseObject JSONValue]
                         withError:nil];
         }
+        if (block) block(this, [responseObject JSONValue], nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:deleteFile:withError:)]) {
             [this.delegate client:this
                        deleteFile:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }
 
 - (void)downloadFile:(NSString *)path
+{
+    [self downloadFile:path
+                 block:nil];
+}
+
+- (void)downloadFile:(NSString *)path
+               block:(MTClientDictionaryBlock)block
 {
     NSDictionary *params = @{
     @"method"       : @"download",
@@ -280,12 +322,14 @@
                      downloadFile:responseObject
                         withError:nil];
         }
+        if (block) block(this, responseObject, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([this.delegate respondsToSelector:@selector(client:downloadFile:withError:)]) {
             [this.delegate client:this
                      downloadFile:nil
                         withError:error];
         }
+        if (block) block(this, nil, error);
     }];
     [self.queue addOperation:operation];
 }

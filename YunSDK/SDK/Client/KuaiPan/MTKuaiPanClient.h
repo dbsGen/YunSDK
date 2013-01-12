@@ -14,6 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MTOAuth.h"
+#import "MTClientDefine.h"
 
 @protocol MTKuaiPanClientDelegate;
 @class MTOAuth1;
@@ -64,6 +65,7 @@
 
 //  1/account_info
 - (void)checkAccountInfo;
+- (void)checkAccountInfoWithBlock:(MTClientDictionaryBlock)block;
 
 /**  1/metadata/<root>/<path>
  *  @param  path 网络硬盘路径 必须
@@ -82,12 +84,22 @@
                 pageSize:(NSNumber *)pageSize
                filterExt:(NSString *)filter
                   sortBy:(NSString *)sortBy;
+- (void)metadataWithPath:(NSString *)path
+                    list:(NSNumber *)isList
+               fileLimit:(NSNumber *)fileLimit
+                    page:(NSNumber *)page
+                pageSize:(NSNumber *)pageSize
+               filterExt:(NSString *)filter
+                  sortBy:(NSString *)sortBy
+                   block:(MTClientDictionaryBlock)block;
 
 /**
  *  1/fileops/create_folder
  *  @param path 同上
  */
 - (void)createFolderWithPath:(NSString *)path;
+- (void)createFolderWithPath:(NSString *)path
+                       block:(MTClientDictionaryBlock)block;
 
 /**
  *  1/shares/<root>/<path>
@@ -98,12 +110,18 @@
 - (void)getShareAddress:(NSString *)path
                    name:(NSString *)name
             accessToken:(NSString *)accessToken;
+- (void)getShareAddress:(NSString *)path
+                   name:(NSString *)name
+            accessToken:(NSString *)accessToken
+                  block:(MTClientDictionaryBlock)block;
 
 /**
  *  1/history/<root>/<path>
  *  @param  path 同上
  */
 - (void)fileHistory:(NSString *)path;
+- (void)fileHistory:(NSString *)path
+              block:(MTClientDictionaryBlock)block;
 
 /**
  *  1/fileops/delete
@@ -113,6 +131,9 @@
 
 - (void)deleteFile:(NSString *)path
          toRecycle:(NSString *)toRecycle;
+- (void)deleteFile:(NSString *)path
+         toRecycle:(NSString *)toRecycle
+             block:(MTClientDictionaryBlock)block;
 
 /**
  *  1/fileops/upload_locate
@@ -125,6 +146,11 @@
               file:(NSData *)file
          overWritr:(BOOL)overWrite
           sourceIp:(NSString *)sourceIp;
+- (void)uploadFile:(NSString *)path
+              file:(NSData *)file
+         overWritr:(BOOL)overWrite
+          sourceIp:(NSString *)sourceIp
+             block:(MTClientDictionaryBlock)block;
 
 /**
  *  1/fileops/download_file
@@ -133,6 +159,9 @@
  */
 - (void)downloadFile:(NSString *)path
                  rev:(NSString *)rev;
+- (void)downloadFile:(NSString *)path
+                 rev:(NSString *)rev
+               block:(MTClientDictionaryBlock)block;
 
 @end
 

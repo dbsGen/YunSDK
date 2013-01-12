@@ -77,6 +77,8 @@
                                                         path:[self.requestURLString lastPathComponent]
                                                   parameters:retParams];
     
+    NSLog(@"%@", request.URL);
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
     __unsafe_unretained MTOAuth1 *this = self;
