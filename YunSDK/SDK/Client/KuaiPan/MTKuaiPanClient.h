@@ -161,7 +161,7 @@
                  rev:(NSString *)rev;
 - (void)downloadFile:(NSString *)path
                  rev:(NSString *)rev
-               block:(MTClientDictionaryBlock)block;
+               block:(MTClientDataBlock)block;
 
 @end
 

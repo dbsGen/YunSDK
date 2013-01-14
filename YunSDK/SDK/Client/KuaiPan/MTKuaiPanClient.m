@@ -544,7 +544,7 @@
                  block:nil];
 }
 
-- (void)downloadFile:(NSString *)path rev:(NSString *)rev block:(MTClientDictionaryBlock)block
+- (void)downloadFile:(NSString *)path rev:(NSString *)rev block:(MTClientDataBlock)block
 {
     if (!path) {
         path = @"/";

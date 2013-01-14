@@ -302,7 +302,7 @@
 }
 
 - (void)downloadFile:(NSString *)path
-               block:(MTClientDictionaryBlock)block
+               block:(MTClientDataBlock)block
 {
     NSDictionary *params = @{
     @"method"       : @"download",

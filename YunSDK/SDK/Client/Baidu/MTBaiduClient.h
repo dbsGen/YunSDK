@@ -90,7 +90,7 @@
  */
 - (void)downloadFile:(NSString *)path;
 - (void)downloadFile:(NSString *)path
-               block:(MTClientDictionaryBlock)block;
+               block:(MTClientDataBlock)block;
 
 @end
 
